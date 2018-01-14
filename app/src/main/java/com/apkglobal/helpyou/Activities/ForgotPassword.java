@@ -34,6 +34,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        String str;
         switch (v.getId()) {
             case R.id.back_button:
                 Intent login=new Intent(ForgotPassword.this,LoginActivity.class);
@@ -43,6 +44,8 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
             case R.id.forgot_button:
 
                 // Call Submit button task
+                str=emailId.getText().toString();
+                Toast.makeText(getApplicationContext(),str,Toast.LENGTH_SHORT).show();
                 submitButtonTask();
                 break;
 

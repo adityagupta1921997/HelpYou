@@ -1,6 +1,7 @@
 package com.apkglobal.helpyou.Activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.apkglobal.helpyou.Activities.Coordinator_tab.DataHolder;
 import com.apkglobal.helpyou.Activities.Coordinator_tab.MyPageAdapter;
+import com.apkglobal.helpyou.Activities.Helper.Configure;
 import com.apkglobal.helpyou.Activities.Helper.Helper;
 import com.apkglobal.helpyou.Activities.Helper.Shared;
 import com.apkglobal.helpyou.R;
@@ -38,8 +40,9 @@ public class NavigationActivity extends AppCompatActivity
     private CoordinatorTabLayout mCoordinatorTabLayout;
     private int[]  mColorArray,mImageArray;
     private ArrayList<Fragment> mFragments;
-    private final String[] mTitles = {"Android", "iOS", "Web", "Other"};
+    private final String[] mTitles = {"Errands", "Events", "Healthcare", "Housekeeping"};
     private ViewPager mViewPager;
+    Configure configure=new Configure();
 
     //JSONObject response, profile_pic_data, profile_pic_url;
 
@@ -69,8 +72,10 @@ public class NavigationActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toasty.info(NavigationActivity.this, "Give Your feedback after using this app!!", Toast.LENGTH_LONG,true).show();
+                Intent feedback=new Intent(Intent.ACTION_VIEW);
+                feedback.setData(Uri.parse("https://play.google.com"));
+                startActivity(feedback);
             }
         });
 
@@ -87,10 +92,10 @@ public class NavigationActivity extends AppCompatActivity
         initFragments();
         initViewPager();
         mImageArray = new int[]{
-                R.drawable.splash_icon,
-                R.drawable.splash_icon,
-                R.drawable.splash_icon,
-                R.drawable.splash_icon};
+                R.drawable.errands,
+                R.drawable.events,
+                R.drawable.healthcare,
+                R.drawable.housekeeping};
         mColorArray = new int[]{
                 android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
@@ -109,6 +114,7 @@ public class NavigationActivity extends AppCompatActivity
         for (String title : mTitles) {
             mFragments.add(DataHolder.getInstance(title));
         }
+        configure.setTest_fragment(mFragments);
     }
 
     private void initViewPager() {
@@ -160,17 +166,20 @@ public class NavigationActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_home) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_about) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_payment) {
 
         } else if (id == R.id.nav_share) {
+            Intent share=new Intent(Intent.ACTION_SEND);
+            share.putExtra(Intent.EXTRA_TEXT,
+                    "Hey check out my app at: https://play.google.com");
+            share.setType("text/plain");
+            startActivity(Intent.createChooser(share,"Share App Via"));
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_profile) {
 
         }
 

@@ -45,7 +45,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.ForgotPassword" />
-        <activity android:name=".Activities.SignUpActivity"></activity>
+        <activity android:name=".Activities.SignUpActivity" />
+        <activity android:name=".Activities.GetTask"></activity>
     </application>
 
 </manifest>
