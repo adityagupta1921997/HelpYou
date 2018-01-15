@@ -9,13 +9,13 @@ import java.util.ArrayList;
  */
 
 public class Configure {
-    ArrayList<Fragment> test_fragment;
+    public static ArrayList<Fragment> test_fragment;
 
-    public ArrayList<Fragment> getTest_fragment() {
+    public static ArrayList<Fragment> getTest_fragment() {
         return test_fragment;
     }
 
-    public void setTest_fragment(ArrayList<Fragment> test_fragment) {
-        this.test_fragment = test_fragment;
+    public static void setTest_fragment(ArrayList<Fragment> test_fragment) {
+        Configure.test_fragment = test_fragment;
     }
 }

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apkglobal.helpyou.Activities.MyLocationUsingLocationAPI">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:id="@+id/linear">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/tv_demand_show"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Enter name"
+            android:backgroundTint="@color/colorPrimary"
+            android:inputType="textPersonName"
+            android:id="@+id/et_name" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:id="@+id/et_contact"
+            android:hint="Enter Contact"
+            android:inputType="phone"
+            android:backgroundTint="@color/colorPrimary"/>
+    </LinearLayout>
+
+
+    <android.support.v7.widget.CardView
+        card_view:elevation="4dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/card_view"
+        android:layout_below="@id/linear"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="1dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+        <RelativeLayout
+            android:minHeight="120dp"
+            android:id="@+id/rlAddress"
+            android:layout_alignParentTop="true"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:text=""
+                android:visibility="gone"
+                android:layout_alignParentLeft="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:id="@+id/tvEmpty"
+                android:text="Tap pick location to get your address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+            <View
+                android:layout_below="@+id/rlAddress"
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#E1E1E1"
+                />
+
+            <RelativeLayout
+                android:id="@+id/rlPickLocation"
+                android:layout_below="@id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_centerInParent="true"
+                    android:padding="@dimen/items_inbetween"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_pick"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/textView"
+                        android:textSize="18dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/items_inbetween"
+                        android:text="PICK LOCATION"
+                        android:textColor="@color/colorPrimary" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:enabled="false"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        style="@style/proceedButtonStyle"
+        android:id="@+id/btnLocation"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="PROCEED" />
+
+</RelativeLayout>

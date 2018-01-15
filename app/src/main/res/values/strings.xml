@@ -27,4 +27,6 @@
     <string name="facebook_app_id">394452464341242</string>
     <string name="fb_login_protocol_scheme">fb394452464341242</string>
 
+    <string name="quotedesc">Welcome! Where should we deliver to?</string>
+
 </resources>
