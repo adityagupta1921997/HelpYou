@@ -1,8 +1,5 @@
 package com.apkglobal.helpyou.Activities.Coordinator_tab;
 
-/**
- * Created by Mayank on 1/13/2018.
- */
 
 public class Model {
     public String name_of_demand;

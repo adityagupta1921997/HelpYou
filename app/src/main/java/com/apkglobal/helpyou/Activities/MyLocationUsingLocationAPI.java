@@ -87,7 +87,9 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_service);
         tv_demand_show=findViewById(R.id.tv_demand_show);
+
         String show=getIntent().getStringExtra("DEMANDNAME");
+        Log.d("ashu","demand name is:  "+show);
         tv_demand_show.setText(show);
 
         ButterKnife.bind(this);

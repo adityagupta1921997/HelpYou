@@ -14,9 +14,6 @@ import com.apkglobal.helpyou.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hugeterry(http://hugeterry.cn)
- */
 public class DataHolder extends Fragment {
     private RecyclerView mRecyclerView;
 
