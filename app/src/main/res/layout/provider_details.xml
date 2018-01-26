@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="3dp"
+        app:cardCornerRadius="5dp">
+
+        <RelativeLayout
+            android:background="@drawable/card_view_border"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/show_name"
+                android:layout_alignParentLeft="true"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="#000"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/show_contact"
+                android:layout_alignParentLeft="true"
+                android:padding="5dp"
+                android:layout_below="@id/show_name"
+                android:layout_marginTop="5dp"
+                android:textColor="#000"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/show_experience"
+                android:layout_alignParentLeft="true"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/show_contact"
+                android:textColor="#000"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/show_address"
+                android:layout_alignParentLeft="true"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/show_experience"
+                android:textColor="#000"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

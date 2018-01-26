@@ -149,16 +149,9 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
             @Override
             public void onClick(View view) {
                 Toasty.info(getApplicationContext(),"Proceeds to fetch data",Toast.LENGTH_SHORT,true).show();
-                if(type_service.equals("getservice"))
-                {
                     Intent get_provider=new Intent(MyLocationUsingLocationAPI.this,GetProvider.class);
+                    get_provider.putExtra("TYPE2",type_service);
                     startActivity(get_provider);
-                }
-                else if(type_service.equals("giveservice"))
-                {
-                    Intent get_client=new Intent(MyLocationUsingLocationAPI.this,GetClient.class);
-                    startActivity(get_client);
-                }
             }
         });
 
@@ -488,7 +481,15 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
 
 
             try {
-                URL url=new URL("http://geekmozo.com/insert_user.php");
+                URL url=null;
+                if(type_service.equals("getservice"))
+                {
+                    url=new URL("http://geekmozo.com/insert_user.php");
+                }
+                else if(type_service.equals("giveservice"))
+                {
+                    url=new URL("http://geekmozo.com/insert_provider.php");
+                }
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
