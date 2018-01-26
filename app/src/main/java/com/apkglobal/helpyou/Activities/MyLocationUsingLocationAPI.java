@@ -2,11 +2,13 @@ package com.apkglobal.helpyou.Activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
@@ -38,25 +40,32 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 
 public class MyLocationUsingLocationAPI extends AppCompatActivity implements ConnectionCallbacks,
         OnConnectionFailedListener,OnRequestPermissionsResultCallback,
         PermissionResultCallback {
 
 
-    @BindView(R.id.btnLocation)Button btnProceed;
-    @BindView(R.id.tvAddress)TextView tvAddress;
+    @BindView(R.id.btnSubmit)Button submit;
+    @BindView(R.id.btnProceed)Button proceed;
     @BindView(R.id.tvEmpty)TextView tvEmpty;
     @BindView(R.id.rlPickLocation)RelativeLayout rlPick;
-    @BindView(R.id.et_name)EditText name;
-    @BindView(R.id.et_contact)EditText contact;
 
 
     // LogCat tag
@@ -64,7 +73,9 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
 
     private final static int PLAY_SERVICES_REQUEST = 1000;
     private final static int REQUEST_CHECK_SETTINGS = 2000;
-    TextView tv_demand_show;
+    TextView tv_demand_show,tvAddress;
+    EditText description,name,contact;
+    String service_name,st_name,st_contact,st_description,st_address,type_service;
 
     private Location mLastLocation;
 
@@ -81,13 +92,27 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
     PermissionUtils permissionUtils;
 
     boolean isPermissionGranted;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_service);
         tv_demand_show=findViewById(R.id.tv_demand_show);
+        description=findViewById(R.id.et_description);
+        name=findViewById(R.id.et_name);
+        contact=findViewById(R.id.et_contact);
+        tvAddress=findViewById(R.id.tvAddress);
         String show=getIntent().getStringExtra("DEMANDNAME");
+        type_service=getIntent().getStringExtra("TYPE");
+        if(type_service.equals("getservice"))
+        {
+            description.setHint("Add Description...");
+        }
+        else if(type_service.equals("giveservice"))
+        {
+            description.setHint("Add Experience...");
+        }
         tv_demand_show.setText(show);
 
         ButterKnife.bind(this);
@@ -112,20 +137,51 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
 
                 } else {
 
-                    if(btnProceed.isEnabled())
-                        btnProceed.setEnabled(false);
+                    if(submit.isEnabled())
+                        submit.setEnabled(false);
 
                     showToast("Couldn't get the location. Make sure location is enabled on the device");
                 }
             }
         });
 
-
-
-        btnProceed.setOnClickListener(new View.OnClickListener() {
+        proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showToast("Proceed to the next step");
+                Toasty.info(getApplicationContext(),"Proceeds to fetch data",Toast.LENGTH_SHORT,true).show();
+                if(type_service.equals("getservice"))
+                {
+                    Intent get_provider=new Intent(MyLocationUsingLocationAPI.this,GetProvider.class);
+                    startActivity(get_provider);
+                }
+                else if(type_service.equals("giveservice"))
+                {
+                    Intent get_client=new Intent(MyLocationUsingLocationAPI.this,GetClient.class);
+                    startActivity(get_client);
+                }
+            }
+        });
+
+
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                st_name=name.getText().toString();
+                service_name=tv_demand_show.getText().toString();
+                st_contact=contact.getText().toString();
+                st_description=description.getText().toString();
+                st_address=tvAddress.getText().toString();
+                if(st_name.equals("")||st_contact.equals(""))
+                {
+                    Toasty.error(getApplicationContext(),"Enter All details",Toast.LENGTH_SHORT,true).show();
+                }
+                else {
+                    Send send = new Send();
+                    send.execute(service_name, st_name, st_contact, st_description, st_address);
+
+                }
             }
         });
 
@@ -226,8 +282,8 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
                 tvAddress.setText(currentLocation);
                 tvAddress.setVisibility(View.VISIBLE);
 
-                if(!btnProceed.isEnabled())
-                    btnProceed.setEnabled(true);
+                if(!submit.isEnabled())
+                    submit.setEnabled(true);
 
 
             }
@@ -408,6 +464,72 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
     }
 
 
+    private class Send extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog=new ProgressDialog(MyLocationUsingLocationAPI.this);
+            progressDialog.setMessage("Please wait....");
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
 
+        @Override
+        protected String doInBackground(String... strings) {
+            service_name=strings[0];
+            st_name=strings[1];
+            st_contact=strings[2];
+            st_description=strings[3];
+            st_address=strings[4];
+
+            // attendance=Integer.parseInt(sattendance);
+
+
+            try {
+                URL url=new URL("http://geekmozo.com/insert_user.php");
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
+                String data= URLEncoder.encode("service_name","utf-8")+"="+URLEncoder.encode(service_name,"utf-8")+"&&"+URLEncoder.encode("user_name","utf-8")+"="+URLEncoder.encode(st_name,"utf-8")+"&&"+URLEncoder.encode("user_contact","utf-8")+"="+URLEncoder.encode(st_contact,"utf-8")+"&&"+URLEncoder.encode("description","utf-8")+"="+URLEncoder.encode(st_description,"utf-8")+"&&"+URLEncoder.encode("address","utf-8")+"="+URLEncoder.encode(st_address,"utf-8");
+
+
+
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return "Details Submitted";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            name.setText("");
+            contact.setText("");
+            description.setText("");
+            tvAddress.setText("");
+            Toasty.info(getApplicationContext(), s, Toast.LENGTH_SHORT,true).show();
+        }
+    }
 }
+
 

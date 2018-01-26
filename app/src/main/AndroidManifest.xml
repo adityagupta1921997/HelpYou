@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,9 +19,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Activities.NavigationActivity"
@@ -50,10 +49,10 @@
         </activity>
         <activity android:name=".Activities.ForgotPassword" />
         <activity android:name=".Activities.SignUpActivity" />
-
-        <activity android:name=".Activities.MyLocationUsingLocationAPI" >
-
-        </activity>
+        <activity android:name=".Activities.MyLocationUsingLocationAPI" />
+        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".Activities.GetProvider" />
+        <activity android:name=".Activities.GetClient"></activity>
     </application>
 
 </manifest>

@@ -181,6 +181,9 @@ public class NavigationActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_profile) {
 
+            Intent profile=new Intent(NavigationActivity.this,ProfileActivity.class);
+            startActivity(profile);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

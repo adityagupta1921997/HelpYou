@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.apkglobal.helpyou.Activities.MyLocationUsingLocationAPI">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,11 +15,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:id="@+id/tv_demand_show"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
             android:backgroundTint="@color/colorPrimary"
@@ -31,7 +32,10 @@
             android:hint="Enter name"
             android:backgroundTint="@color/colorPrimary"
             android:inputType="textPersonName"
-            android:id="@+id/et_name" />
+            android:id="@+id/et_name"
+
+            android:drawableLeft="@drawable/email"
+            />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +43,19 @@
             android:id="@+id/et_contact"
             android:hint="Enter Contact"
             android:inputType="phone"
-            android:backgroundTint="@color/colorPrimary"/>
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableLeft="@drawable/phone"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableLeft="@drawable/description"
+            android:id="@+id/et_description"
+            android:lines="2"
+            android:layout_marginTop="5dp"
+            />
+
+
     </LinearLayout>
 
 
@@ -48,7 +64,7 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:id="@+id/card_view"
         android:layout_below="@id/linear"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="1dp">
@@ -133,10 +149,19 @@
         android:enabled="false"
         android:layout_margin="@dimen/activity_horizontal_margin"
         style="@style/proceedButtonStyle"
-        android:id="@+id/btnLocation"
+        android:id="@+id/btnSubmit"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
         android:backgroundTint="@color/colorPrimary"
-        android:text="PROCEED" />
+        android:text="SUBMIT" />
+
+        <Button
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            style="@style/proceedButtonStyle"
+            android:id="@+id/btnProceed"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="PROCEED" />
 
 </RelativeLayout>
