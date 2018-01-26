@@ -1,23 +1,16 @@
 package com.apkglobal.helpyou.Activities.Coordinator_tab;
 
-/**
- * Created by Mayank on 1/11/2018.
- */
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.apkglobal.helpyou.R;
 
 import java.util.List;
 
-/**
- * Created by hugeterry(http://hugeterry.cn)
- */
+
 
 public class RecyclerAdapter extends RecyclerView.Adapter<Holder> {
     private Context mContext;
