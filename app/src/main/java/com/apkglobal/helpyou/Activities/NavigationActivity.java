@@ -10,11 +10,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apkglobal.helpyou.Activities.Coordinator_tab.DataHolder;
@@ -37,7 +39,6 @@ public class NavigationActivity extends AppCompatActivity
     private ArrayList<Fragment> mFragments;
     private final String[] mTitles = {"Errands", "Events", "Healthcare", "Housekeeping"};
     private ViewPager mViewPager;
-    Configure configure=new Configure();
 
     //JSONObject response, profile_pic_data, profile_pic_url;
 
@@ -167,7 +168,13 @@ public class NavigationActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_payment) {
 
-        } else if (id == R.id.nav_share) {
+        }
+        else if(id==R.id.nav_instruction)
+        {
+           Intent instruct=new Intent(NavigationActivity.this,Instructions.class);
+           startActivity(instruct);
+        }
+            else if (id == R.id.nav_share) {
             Intent share=new Intent(Intent.ACTION_SEND);
             share.putExtra(Intent.EXTRA_TEXT,
                     "Hey check out my app at: https://play.google.com");

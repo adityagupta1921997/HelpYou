@@ -26,6 +26,7 @@
     <string name="back">BACK</string>
     <string name="facebook_app_id">394452464341242</string>
     <string name="fb_login_protocol_scheme">fb394452464341242</string>
+    <string name="instructions">Help Yourself by following these instructions!!\n\n1.Choose any service sliding across different tabs.\n2.Click on get_service to get help.\n3.Click on give_service to provide help.\n4.Click on Pick Location to enable Submit and Proceed button.\n5.Fill your basic information and click on submit button.\n6.Proceed to get the details of Clients/service providers.</string>
 
     <string name="quotedesc">Welcome! Where should we deliver to?</string>
 

@@ -16,6 +16,10 @@
             android:id="@+id/nav_payment"
             android:icon="@drawable/payment"
             android:title="Payment" />
+        <item
+            android:id="@+id/nav_instruction"
+            android:icon="@drawable/instructions"
+            android:title="Instructions"/>
 
     </group>
 

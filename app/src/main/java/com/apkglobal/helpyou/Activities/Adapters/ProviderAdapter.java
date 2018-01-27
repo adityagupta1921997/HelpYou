@@ -5,6 +5,9 @@ package com.apkglobal.helpyou.Activities.Adapters;
  */
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +20,9 @@ import com.apkglobal.helpyou.R;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ProviderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -68,6 +74,7 @@ public class ProviderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView textprovidercontact;
         TextView textproviderexperience;
         TextView textprovideraddress;
+        private TextToSpeech tts;
 
         // create constructor to get widget reference
         public MyHolder(View itemView) {
@@ -76,8 +83,26 @@ public class ProviderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             textprovidercontact = (TextView) itemView.findViewById(R.id.show_contact);
             textproviderexperience = (TextView) itemView.findViewById(R.id.show_experience);
             textprovideraddress=itemView.findViewById(R.id.show_address);
-        }
+            tts=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if(status != TextToSpeech.ERROR) {
+                        tts.setLanguage(Locale.ENGLISH);
+                    }
+                }
+            });
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String toSpeak=textprovidername.getText().toString();
+                    String call=textprovidercontact.getText().toString();
+                    tts.speak("Hello this is "+ toSpeak+" Call me up to help you.", TextToSpeech.QUEUE_FLUSH, null);
+                    Intent dial = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:(+91)"+call));
+                    context.startActivity(dial);
+                }
+            });
+        }
     }
 
 }

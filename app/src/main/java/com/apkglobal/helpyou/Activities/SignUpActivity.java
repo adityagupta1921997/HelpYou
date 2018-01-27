@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apkglobal.helpyou.Activities.Helper.Configure;
 import com.apkglobal.helpyou.R;
 
 import es.dmoral.toasty.Toasty;
@@ -20,6 +21,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private static TextView login;
     private static Button signUpButton;
     private static CheckBox terms_conditions;
+    Configure configure=new Configure();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         else
             Toasty.info(getApplicationContext(), "SignUp Done.", Toast.LENGTH_SHORT,true)
                     .show();
+
+        configure.setProfile_name(getFullName);
+        configure.setProfile_email(getEmailId);
+        configure.setProfile_contact(getMobileNumber);
+        configure.setProfile_address(getLocation);
 
     }
 }
