@@ -9,13 +9,14 @@ import java.util.ArrayList;
  */
 
 public class Configure {
-    public static ArrayList<Fragment> test_fragment;
 
-    public static ArrayList<Fragment> getTest_fragment() {
-        return test_fragment;
+    public static String fetch_city;
+
+    public static String getFetch_city() {
+        return fetch_city;
     }
 
-    public static void setTest_fragment(ArrayList<Fragment> test_fragment) {
-        Configure.test_fragment = test_fragment;
+    public static void setFetch_city(String fetch_city) {
+        Configure.fetch_city = fetch_city;
     }
 }

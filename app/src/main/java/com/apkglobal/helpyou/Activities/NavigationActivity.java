@@ -110,7 +110,6 @@ public class NavigationActivity extends AppCompatActivity
         for (String title : mTitles) {
             mFragments.add(DataHolder.getInstance(title));
         }
-        configure.setTest_fragment(mFragments);
     }
 
     private void initViewPager() {

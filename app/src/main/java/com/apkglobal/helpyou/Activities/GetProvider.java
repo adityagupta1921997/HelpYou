@@ -25,6 +25,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 public class GetProvider extends AppCompatActivity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
@@ -32,14 +34,15 @@ public class GetProvider extends AppCompatActivity {
     public static final int READ_TIMEOUT = 15000;
     private RecyclerView mRV;
     private ProviderAdapter mAdapter;
-    String type;
+    String type,filter_name,filter_city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_provider);
         type=getIntent().getStringExtra("TYPE2");
-
+        filter_name=getIntent().getStringExtra("SNAME");
+        filter_city=getIntent().getStringExtra("CITY");
         //Make call to AsyncTask
         new AsyncFetch().execute();
     }
@@ -145,14 +148,16 @@ public class GetProvider extends AppCompatActivity {
                 JSONArray jArray = new JSONArray(result);
 
                 // Extract data from json and store into ArrayList as class objects
-                for(int i=0;i<jArray.length();i++){
+                for(int i=0;i<jArray.length();i++) {
                     JSONObject json_data = jArray.getJSONObject(i);
                     ProviderModel providerData = new ProviderModel();
-                    providerData.provider_name= json_data.getString("user_name");
-                    providerData.provider_contact= json_data.getString("user_contact");
-                    providerData.provider_experience= json_data.getString("description");
-                    providerData.provider_address=json_data.getString("address");
-                    data.add(providerData);
+                    providerData.provider_name = json_data.getString("user_name");
+                    providerData.provider_contact = json_data.getString("user_contact");
+                    providerData.provider_experience = json_data.getString("description");
+                    providerData.provider_address = json_data.getString("address");
+                    if (json_data.getString("service_name").equals(filter_name)&&json_data.getString("city").equals(filter_city)) {
+                        data.add(providerData);
+                    }
                 }
 
                 // Setup and Handover data to recyclerview
@@ -162,7 +167,7 @@ public class GetProvider extends AppCompatActivity {
                 mRV.setLayoutManager(new LinearLayoutManager(GetProvider.this));
 
             } catch (JSONException e) {
-                Toast.makeText(GetProvider.this, e.toString(), Toast.LENGTH_LONG).show();
+                Toasty.info(GetProvider.this, "Check your internet Connection", Toast.LENGTH_LONG,true).show();
             }
 
         }

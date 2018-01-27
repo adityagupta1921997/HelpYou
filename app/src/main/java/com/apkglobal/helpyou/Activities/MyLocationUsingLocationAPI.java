@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apkglobal.helpyou.Activities.Helper.Configure;
 import com.apkglobal.helpyou.R;
 import com.apkglobal.helpyou.Activities.Helper.PermissionUtils;
 import com.apkglobal.helpyou.Activities.Helper.PermissionUtils.PermissionResultCallback;
@@ -75,7 +76,7 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
     private final static int REQUEST_CHECK_SETTINGS = 2000;
     TextView tv_demand_show,tvAddress;
     EditText description,name,contact;
-    String service_name,st_name,st_contact,st_description,st_address,type_service;
+    String service_name,st_name,st_contact,st_description,st_address,type_service,st_city;
 
     private Location mLastLocation;
 
@@ -93,6 +94,7 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
 
     boolean isPermissionGranted;
     ProgressDialog progressDialog;
+    Configure configure=new Configure();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +141,8 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
 
                     if(submit.isEnabled())
                         submit.setEnabled(false);
+                    if(proceed.isEnabled())
+                        proceed.setEnabled(false);
 
                     showToast("Couldn't get the location. Make sure location is enabled on the device");
                 }
@@ -149,8 +153,12 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
             @Override
             public void onClick(View view) {
                 Toasty.info(getApplicationContext(),"Proceeds to fetch data",Toast.LENGTH_SHORT,true).show();
+                String sname=tv_demand_show.getText().toString();
+                String pass_city = configure.getFetch_city();
                     Intent get_provider=new Intent(MyLocationUsingLocationAPI.this,GetProvider.class);
                     get_provider.putExtra("TYPE2",type_service);
+                    get_provider.putExtra("SNAME",sname);
+                    get_provider.putExtra("CITY",pass_city);
                     startActivity(get_provider);
             }
         });
@@ -164,7 +172,13 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
                 st_name=name.getText().toString();
                 service_name=tv_demand_show.getText().toString();
                 st_contact=contact.getText().toString();
-                st_description=description.getText().toString();
+                if(type_service.equals("getservice")) {
+                    st_description = "Description: "+description.getText().toString();
+                }
+                else if(type_service.equals("giveservice"))
+                {
+                    st_description = "Experience: "+description.getText().toString();
+                }
                 st_address=tvAddress.getText().toString();
                 if(st_name.equals("")||st_contact.equals(""))
                 {
@@ -242,6 +256,8 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
             String state = locationAddress.getAdminArea();
             String country = locationAddress.getCountryName();
             String postalCode = locationAddress.getPostalCode();
+            configure.setFetch_city(city);
+
 
             String currentLocation;
 
@@ -277,6 +293,8 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
 
                 if(!submit.isEnabled())
                     submit.setEnabled(true);
+                if(!proceed.isEnabled())
+                    proceed.setEnabled(true);
 
 
             }
@@ -476,6 +494,7 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
             st_contact=strings[2];
             st_description=strings[3];
             st_address=strings[4];
+            st_city=configure.getFetch_city();
 
             // attendance=Integer.parseInt(sattendance);
 
@@ -496,7 +515,7 @@ public class MyLocationUsingLocationAPI extends AppCompatActivity implements Con
 
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
-                String data= URLEncoder.encode("service_name","utf-8")+"="+URLEncoder.encode(service_name,"utf-8")+"&&"+URLEncoder.encode("user_name","utf-8")+"="+URLEncoder.encode(st_name,"utf-8")+"&&"+URLEncoder.encode("user_contact","utf-8")+"="+URLEncoder.encode(st_contact,"utf-8")+"&&"+URLEncoder.encode("description","utf-8")+"="+URLEncoder.encode(st_description,"utf-8")+"&&"+URLEncoder.encode("address","utf-8")+"="+URLEncoder.encode(st_address,"utf-8");
+                String data= URLEncoder.encode("service_name","utf-8")+"="+URLEncoder.encode(service_name,"utf-8")+"&&"+URLEncoder.encode("user_name","utf-8")+"="+URLEncoder.encode(st_name,"utf-8")+"&&"+URLEncoder.encode("user_contact","utf-8")+"="+URLEncoder.encode(st_contact,"utf-8")+"&&"+URLEncoder.encode("description","utf-8")+"="+URLEncoder.encode(st_description,"utf-8")+"&&"+URLEncoder.encode("address","utf-8")+"="+URLEncoder.encode(st_address,"utf-8")+"&&"+URLEncoder.encode("city","utf-8")+"="+URLEncoder.encode(st_city,"utf-8");
 
 
 
