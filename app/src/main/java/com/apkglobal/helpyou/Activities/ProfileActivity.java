@@ -16,6 +16,11 @@ import android.widget.Toast;
 
 import com.apkglobal.helpyou.Activities.Helper.Configure;
 import com.apkglobal.helpyou.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 
@@ -26,9 +31,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     TextView pname,pemail,pcontact,paddress;
     CircleImageView circleImageView;
-    Button imagebutton;
+    Button imagebutton,profile_button;
     private static int PICK_IMAGE_REQUEST = 1;
     Configure configure=new Configure();
+    DatabaseReference rootRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +46,10 @@ public class ProfileActivity extends AppCompatActivity {
         paddress=findViewById(R.id.tv_paddress);
         imagebutton=findViewById(R.id.btn_image);
         circleImageView=findViewById(R.id.p_image);
+        profile_button=findViewById(R.id.get_profile);
         circleImageView.setImageBitmap(configure.getImageView());
+        rootRef = FirebaseDatabase.getInstance().getReference("users");
+        //database reference pointing to demo node
         imagebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,10 +59,26 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
-        pname.setText(configure.getProfile_name());
-        pemail.setText(configure.getProfile_email());
-        pcontact.setText(configure.getProfile_contact());
-        paddress.setText(configure.getProfile_address());
+        profile_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //userid=rootRef.getKey();
+
+                rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Configure configure = dataSnapshot.getValue(Configure.class);
+                        pname.setText(configure.profile_name);
+                        pemail.setText(configure.profile_email);
+                        pcontact.setText(configure.profile_contact);
+                        paddress.setText(configure.profile_address);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
+        });
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

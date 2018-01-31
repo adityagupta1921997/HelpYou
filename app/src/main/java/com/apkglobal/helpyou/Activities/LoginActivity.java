@@ -1,6 +1,7 @@
 package com.apkglobal.helpyou.Activities;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,10 +15,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.apkglobal.helpyou.Activities.Helper.Shared;
 import com.apkglobal.helpyou.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -27,6 +28,10 @@ import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONObject;
 
@@ -40,12 +45,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static CheckBox show_hide_password;
     private static LinearLayout loginLayout;
     private static Animation shakeAnimation;
-    Shared shared;
     CallbackManager callbackManager;
+    private FirebaseAuth auth;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        auth = FirebaseAuth.getInstance();
+
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this, NavigationActivity.class));
+            finish();
+        }
         setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();
         LoginButton lb = (LoginButton) findViewById(R.id.login_button);
@@ -74,7 +86,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         or = findViewById(R.id.tv_or);
         show_hide_password = findViewById(R.id.show_hide_password);
         loginLayout = findViewById(R.id.login_layout);
-        shared=new Shared(getApplicationContext());
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        auth = FirebaseAuth.getInstance();
+
 
         // Load ShakeAnimation
         shakeAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -182,7 +196,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void checkValidation() {
         // Get email id and password
         String getEmailId = emailid.getText().toString();
-        String getPassword = password.getText().toString();
+        final String getPassword = password.getText().toString();
 
         // Check patter for email id
         /*Pattern p = Pattern.compile(Utils.regEx);*/
@@ -194,21 +208,41 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (getEmailId.equals("") || getEmailId.length() == 0
                 || getPassword.equals("") || getPassword.length() == 0) {
             loginLayout.startAnimation(shakeAnimation);
-            Toasty.error(getApplicationContext(),"Enter both credentials.", Toast.LENGTH_SHORT,true).show();
+            Toasty.error(getApplicationContext(), "Enter both credentials.", Toast.LENGTH_SHORT, true).show();
 
-        }
-        // Check if email id is valid or not
-        else if (getEmailId.matches(emailPattern)) {
-            //Toast.makeText(getActivity(), "Do Login", Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(getApplicationContext(),NavigationActivity.class);
-            startActivity(intent);
-            shared.withlogin();
         }
         // Else do login and do your stuff
-        else {
-            Toasty.error(getApplicationContext(),"Your Email Id is Invalid.",Toast.LENGTH_SHORT,true).show();
-        }
+        else if (!getEmailId.matches(emailPattern)) {
+            Toasty.error(getApplicationContext(), "Your Email Id is Invalid.", Toast.LENGTH_SHORT, true).show();
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
 
+            //authenticate user
+            auth.signInWithEmailAndPassword(getEmailId, getPassword)
+                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            progressBar.setVisibility(View.GONE);
+                            if (!task.isSuccessful()) {
+                                // there was an error
+                                if (getPassword.length() < 6) {
+                                    password.setError(getString(R.string.minimum_password));
+                                } else {
+                                    Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toasty.info(getApplicationContext(),"Successful Login",Toast.LENGTH_SHORT,true).show();
+                                Intent intent = new Intent(LoginActivity.this, NavigationActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+
+        }
     }
     protected void onResume() {
         super.onResume();

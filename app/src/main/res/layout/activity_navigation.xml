@@ -26,4 +26,10 @@
         app:headerLayout="@layout/nav_header_navigation"
         app:menu="@menu/activity_navigation_drawer" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="gone" />
+
 </android.support.v4.widget.DrawerLayout>

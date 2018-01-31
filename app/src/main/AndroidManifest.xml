@@ -6,8 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -54,7 +53,8 @@
         <activity android:name=".Activities.MyLocationUsingLocationAPI" />
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.GetProvider" />
-        <activity android:name=".Activities.Instructions"></activity>
+        <activity android:name=".Activities.Instructions" />
+        <activity android:name=".Activities.AboutActivity"></activity>
     </application>
 
 </manifest>
