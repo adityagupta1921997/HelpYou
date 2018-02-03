@@ -20,14 +20,6 @@
             app:civ_border_color="#22649f"
             app:civ_border_width="4dp"
             android:src="@drawable/default_profile"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:id="@+id/btn_image"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="Change photo"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,7 +31,7 @@
         android:textColor="@color/colorPrimary"
         android:fontFamily="cursive"
         android:id="@+id/tv_pname"
-        android:text="Default"/>
+        android:text="Your Name"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +43,7 @@
             android:textColor="@color/colorPrimary"
             android:fontFamily="cursive"
             android:id="@+id/tv_pemail"
-            android:text="Default"/>
+            android:text="Your Email"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,18 +54,7 @@
             android:textColor="@color/colorPrimary"
             android:fontFamily="cursive"
             android:id="@+id/tv_pcontact"
-            android:text="Default"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
-            android:fontFamily="cursive"
-            android:id="@+id/tv_paddress"
-            android:text="Default"/>
+            android:text="Your Contact"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -82,7 +63,16 @@
             android:backgroundTint="@color/colorPrimary"
             android:text="See Your Profile"
             android:id="@+id/get_profile"
+            android:layout_marginTop="10dp"
             />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.apkglobal.helpyou.Activities.Helper;
 
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -17,16 +18,8 @@ public class Configure {
     public String profile_name;
     public String profile_email;
     public String profile_contact;
-    public String profile_address;
-    public static Bitmap imageView;
+   // public String url;
 
-    public static Bitmap getImageView() {
-        return imageView;
-    }
-
-    public static void setImageView(Bitmap imageView) {
-        Configure.imageView = imageView;
-    }
 
     public static String getFetch_city() {
         return fetch_city;
@@ -40,12 +33,11 @@ public class Configure {
     {
 
     }
-    public Configure(String name,String email,String contact,String address)
+    public Configure(String name,String email,String contact)
     {
         this.profile_name=name;
         this.profile_email=email;
         this.profile_contact=contact;
-        this.profile_address=address;
     }
 
 
